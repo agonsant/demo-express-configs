@@ -2,6 +2,7 @@ module.exports = {
   env: {
     node: true,
     es2021: true,
+    jest: true,
   },
   extends: ['xo'],
   parser: '@typescript-eslint/parser',
@@ -13,5 +14,6 @@ module.exports = {
   plugins: ['@typescript-eslint'],
   rules: {
     indent: ['Error', 2],
+    'object-curly-spacing': ['Error', 'always'],
   },
 };
