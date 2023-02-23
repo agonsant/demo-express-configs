@@ -21,12 +21,12 @@ describe('Given a getStudentsController function from studentsContoller', () => 
     },
   ];
 
-  test('when it is invoked and it is successfull it should return a list of students', async () => {
+  test('when the database response is successfull it, then it should respond with a list of students', async () => {
     StudentModel.find = jest.fn().mockResolvedValue(students);
     await getStudentsController(request, response as Response, jest.fn());
     expect(response.json).toHaveBeenCalledWith(students);
   });
-  test('when the database throws an error then it should response with status 500', async () => {
+  test('when the database throws an error then it should respond with status 500', async () => {
     StudentModel.find = jest
       .fn()
       .mockRejectedValue(new Error('somethign was wrong'));
@@ -53,7 +53,7 @@ describe('Given a getStudentByIdController from studentController', () => {
 
   StudentModel.findById = jest.fn().mockResolvedValue(student);
 
-  test('when the user exists it should respond with a student', async () => {
+  test('when the user exists then it should respond with a student', async () => {
     await getStudentByIdController(
       request as Request,
       response as Response,
