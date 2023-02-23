@@ -2,9 +2,10 @@
   "name": "base-backend-express",
   "version": "1.0.0",
   "description": "This is a demo project with default configs",
-  "main": "index.js",
+  "main": "dist/app.js",
   "type": "module",
   "scripts": {
+    "start": "tsc && node dist/app.js",
     "test": "jest",
     "prepare": "husky install",
     "-----": "---------CI----------",
@@ -22,6 +23,7 @@
   },
   "homepage": "https://github.com/agonsant/demo-express-configs#readme",
   "devDependencies": {
+    "@types/debug": "^4.1.7",
     "@types/jest": "^29.4.0",
     "@types/node": "^18.14.0",
     "@typescript-eslint/eslint-plugin": "^5.53.0",
@@ -33,5 +35,11 @@
     "prettier": "^2.8.4",
     "ts-jest": "^29.0.5",
     "typescript": "^4.9.5"
+  },
+  "dependencies": {
+    "@types/express": "^4.17.17",
+    "debug": "^4.3.4",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2"
   }
 }
