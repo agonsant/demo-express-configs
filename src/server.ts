@@ -1,9 +1,13 @@
 import dotenv from 'dotenv';
-dotenv.config();
 import app from './app.js';
+import connectDB from './database/connection.js';
 import log from './logger.js';
-const port = process.env.PORT ?? 3000;
+dotenv.config();
 
-app.listen(port, () => {
+const port = process.env.PORT ?? 3000;
+const mongoUrl = process.env.MONGO_URL ?? '';
+
+app.listen(port, async () => {
+  await connectDB(mongoUrl);
   log.info(`Server started in port ${port}`);
 });
