@@ -16,5 +16,6 @@ module.exports = {
     indent: ['Error', 2],
     'object-curly-spacing': ['Error', 'always'],
     'new-cap': ['error', { capIsNewExceptions: ['express.Router'] }],
+    'operator-linebreak': ['error', 'after'],
   },
 };

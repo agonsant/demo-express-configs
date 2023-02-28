@@ -22,7 +22,9 @@ describe('Given a getStudentsController function from studentsContoller', () => 
   ];
 
   test('when the database response is successfull it, then it should respond with a list of students', async () => {
-    StudentModel.find = jest.fn().mockResolvedValue(students);
+    StudentModel.find = jest.fn().mockImplementation(() => ({
+      exec: jest.fn().mockResolvedValue(students),
+    }));
     await getStudentsController(request, response as Response, jest.fn());
     expect(response.json).toHaveBeenCalledWith(students);
   });

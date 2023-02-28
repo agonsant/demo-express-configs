@@ -1,18 +1,21 @@
 import { RequestHandler } from 'express';
 import crypto from 'node:crypto';
-import { StudentModel } from './student-schema.js';
-import { Student } from './students-model.js';
+import { Student, StudentModel } from './student-schema.js';
 
 export const getStudentsController: RequestHandler = async (_req, res) => {
   try {
-    const foundStudents = await StudentModel.find({});
+    const foundStudents = await StudentModel.find({}).exec();
     res.json(foundStudents);
   } catch (error) {
     res.status(500).json(error);
   }
 };
 
-export const createStudentController: RequestHandler = async (req, res) => {
+export const createStudentController: RequestHandler<
+  unknown,
+  Student | Error,
+  Omit<Student, 'id'>
+> = async (req, res) => {
   const id = crypto.randomUUID();
   const student: Student = {
     id,
@@ -21,7 +24,7 @@ export const createStudentController: RequestHandler = async (req, res) => {
   try {
     await StudentModel.create(student);
     res.status(201).json(student);
-  } catch (error) {
+  } catch (error: any) {
     res.status(500).json(error);
   }
 };
@@ -29,7 +32,7 @@ export const createStudentController: RequestHandler = async (req, res) => {
 export const getStudentByIdController: RequestHandler = async (req, res) => {
   const { id } = req.params;
   try {
-    const student = await StudentModel.findById(id);
+    const student = await StudentModel.findById(id).exec();
     if (student === null) {
       res.sendStatus(404);
     } else {
@@ -44,7 +47,10 @@ export const updateStudentByIdController: RequestHandler = async (req, res) => {
   const { id } = req.params;
 
   try {
-    const dbRes = await StudentModel.updateOne({ _id: id }, { ...req.body });
+    const dbRes = await StudentModel.updateOne(
+      { _id: id },
+      { ...req.body },
+    ).exec();
     if (dbRes.matchedCount === 0) {
       res.sendStatus(404);
     }
@@ -59,11 +65,13 @@ export const updateStudentByIdController: RequestHandler = async (req, res) => {
   }
 };
 
-export const deleteStudentByIdController: RequestHandler = async (req, res) => {
+export const deleteStudentByIdController: RequestHandler<{
+  id: string;
+}> = async (req, res) => {
   const { id } = req.params;
 
   try {
-    const dbRes = await StudentModel.deleteOne({ _id: id });
+    const dbRes = await StudentModel.deleteOne({ _id: id }).exec();
     if (dbRes.deletedCount === 0) {
       res.sendStatus(404);
     } else {
