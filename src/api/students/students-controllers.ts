@@ -1,5 +1,6 @@
 import { RequestHandler } from 'express';
 import crypto from 'node:crypto';
+import log from '../../logger.js';
 import { Student, StudentModel } from './student-schema.js';
 
 export const getStudentsController: RequestHandler = async (_req, res) => {
@@ -31,6 +32,8 @@ export const createStudentController: RequestHandler<
 
 export const getStudentByIdController: RequestHandler = async (req, res) => {
   const { id } = req.params;
+  const { email } = res.locals;
+  log.debug(`The email in the request is ${email}. Use with caution`);
   try {
     const student = await StudentModel.findById(id).exec();
     if (student === null) {

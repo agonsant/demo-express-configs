@@ -15,7 +15,7 @@ const createCypher = () => {
     .update(String(process.env.PASSWORD_ENCRYPTION_KEY))
     .digest('base64')
     .substring(0, 32);
-  const iv = crypto.randomBytes(16);
+  const iv = crypto.randomBytes(0);
 
   return crypto.createCipheriv(
     process.env.PASSWORD_ENCRYPTION_ALGORITHM,
