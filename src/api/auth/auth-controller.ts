@@ -1,16 +1,11 @@
 import { RequestHandler } from 'express';
 import crypto from 'node:crypto';
 import logger from '../../logger.js';
-import { User, UserModel } from '../users/user-schema.js';
+import { UserModel } from '../users/user-schema.js';
+import { AuthRequest, LoginResponse } from './auth-types.js';
 import { encryptPassword, generateJWTToken } from './auth-utils.js';
 
 const EMAIL_REGEX_VALIDATION = /^[a-z0-9_.+-]+@[a-z0-9-]+\.[a-z0-9-.]+$/i;
-
-interface LoginResponse {
-  accessToken: string;
-}
-
-type AuthRequest = Pick<User, 'email' | 'password'>;
 
 export const registerUserController: RequestHandler<
   unknown,
@@ -72,7 +67,8 @@ export const loginUserController: RequestHandler<
     res.status(201).json({
       accessToken: tokenJWT,
     });
-  } catch {
+  } catch (err) {
+    logger.error(err);
     res.sendStatus(500);
   }
 };

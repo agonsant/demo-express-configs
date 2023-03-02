@@ -1,6 +1,6 @@
 import { RequestHandler } from 'express';
 import jwt from 'jsonwebtoken';
-import log from '../../logger';
+import log from '../../logger.js';
 
 export const authMiddleware: RequestHandler = (req, res, next) => {
   const jwtToken = req.headers.authorization?.split(' ')[1];

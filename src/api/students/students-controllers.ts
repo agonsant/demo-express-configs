@@ -3,9 +3,11 @@ import crypto from 'node:crypto';
 import log from '../../logger.js';
 import { Student, StudentModel } from './student-schema.js';
 
+const queryProjection = { __v: 0, subjects: 0 };
+
 export const getStudentsController: RequestHandler = async (_req, res) => {
   try {
-    const foundStudents = await StudentModel.find({}).exec();
+    const foundStudents = await StudentModel.find({}, queryProjection).exec();
     res.json(foundStudents);
   } catch (error) {
     res.status(500).json(error);
@@ -35,7 +37,7 @@ export const getStudentByIdController: RequestHandler = async (req, res) => {
   const { email } = res.locals;
   log.debug(`The email in the request is ${email}. Use with caution`);
   try {
-    const student = await StudentModel.findById(id).exec();
+    const student = await StudentModel.findById(id, queryProjection).exec();
     if (student === null) {
       res.sendStatus(404);
     } else {

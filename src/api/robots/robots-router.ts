@@ -1,5 +1,5 @@
 import express from 'express';
-import { updateRobotByIdController } from './robots-controller';
+import { updateRobotByIdController } from './robots-controller.js';
 
 const router = express.Router();
 

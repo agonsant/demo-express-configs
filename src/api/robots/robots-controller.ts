@@ -1,5 +1,5 @@
 import { RequestHandler } from 'express';
-import { Robot, RobotModel } from './robot-schema';
+import { Robot, RobotModel } from './robot-schema.js';
 
 export const updateRobotByIdController: RequestHandler = async (req, res) => {
   const { idRobot } = req.params;
