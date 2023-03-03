@@ -1,9 +1,14 @@
 import { RequestHandler } from 'express';
+import {
+  PROFILE_BUCKET_NAME,
+  supabase,
+} from '../../database/supabase-client.js';
+import log from '../../logger.js';
 import { UserLocalsAuthInfo } from '../auth/auth-types.js';
 import { User, UserModel } from './user-schema.js';
 
 export const getUserInfoController: RequestHandler<
-  never,
+  {},
   Omit<User, 'password'>,
   never,
   never,
@@ -22,6 +27,40 @@ export const getUserInfoController: RequestHandler<
   }
 
   res.sendStatus(404);
+};
+
+export const updateUserProfileController: RequestHandler<
+  never,
+  never,
+  never,
+  never,
+  UserLocalsAuthInfo
+> = async (req, res) => {
+  const { email } = res.locals;
+  const fileBuffer = req.file?.buffer;
+  if (fileBuffer !== undefined) {
+    const fileName = `${email}${Date.now()}${req.file?.originalname}`;
+    const { error } = await supabase.storage
+      .from(PROFILE_BUCKET_NAME)
+      .upload(fileName, fileBuffer);
+    log.info('Error from supabase', error);
+    if (error === null) {
+      const { data } = supabase.storage
+        .from(PROFILE_BUCKET_NAME)
+        .getPublicUrl(fileName);
+      log.info('Public URL generated', data.publicUrl);
+      const dbRes = await UserModel.updateOne(
+        { email },
+        { profileURL: data.publicUrl },
+      ).exec();
+      log.info('Users modified', dbRes.modifiedCount);
+      if (dbRes.modifiedCount === 1) {
+        return res.sendStatus(204);
+      }
+    }
+  }
+
+  res.sendStatus(500);
 };
 
 export const addStudentByIdController: RequestHandler<

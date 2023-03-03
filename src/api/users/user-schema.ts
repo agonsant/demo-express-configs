@@ -2,16 +2,16 @@ import mongoose, { Schema } from 'mongoose';
 import { Student } from '../students/student-schema';
 
 export interface User {
-  id: string;
   email: string;
   password: string;
+  profileURL: string;
   student: Student;
 }
 
 const userSchema = new Schema<User>({
-  id: String,
   email: String,
   password: String,
+  profileURL: String,
   student: { type: Schema.Types.ObjectId, ref: 'Student' },
 });
 
