@@ -14,6 +14,7 @@ export const registerUserController: RequestHandler<
 > = async (req, res) => {
   const { email, password } = req.body;
   logger.debug(`User ${email} is trying to register`);
+
   if (!EMAIL_REGEX_VALIDATION.test(email)) {
     logger.debug(
       'El email no cumple la validación de la regex',
