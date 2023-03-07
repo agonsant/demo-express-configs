@@ -15,15 +15,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/agonsant/demo-express-configs.git"
+    "url": "git+https://github.com/Huck8/sample-back-template-express-configs.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/agonsant/demo-express-configs/issues"
+    "url": "https://github.com/Huck8/sample-back-template-express-configs/issues"
   },
-  "homepage": "https://github.com/agonsant/demo-express-configs#readme",
+  "homepage": "https://github.com/Huck8/sample-back-template-express-configs#readme",
   "devDependencies": {
     "@types/bunyan": "^1.8.8",
     "@types/cors": "^2.8.13",
