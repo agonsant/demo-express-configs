@@ -15,15 +15,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Huck8/sample-back-template-express-configs.git"
+    "url": "git+https://github.com/Huck8/202301-w8ch2-angel-contioso.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Huck8/sample-back-template-express-configs/issues"
+    "url": "https://github.com/Huck8/202301-w8ch2-angel-contioso/issues"
   },
-  "homepage": "https://github.com/Huck8/sample-back-template-express-configs#readme",
+  "homepage": "https://github.com/Huck8/202301-w8ch2-angel-contioso#readme",
   "devDependencies": {
     "@types/bunyan": "^1.8.8",
     "@types/cors": "^2.8.13",
