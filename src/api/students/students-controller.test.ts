@@ -28,12 +28,13 @@ describe('Given a getStudentsController function from studentsContoller', () => 
     await getStudentsController(request, response as Response, jest.fn());
     expect(response.json).toHaveBeenCalledWith(students);
   });
-  test('when the database throws an error then it should respond with status 500', async () => {
-    StudentModel.find = jest
-      .fn()
-      .mockRejectedValue(new Error('somethign was wrong'));
-    await getStudentsController(request, response as Response, jest.fn());
-    expect(response.status).toHaveBeenCalledWith(500);
+  test('when the database throws an error then it should the error should not be captured', async () => {
+    StudentModel.find = jest.fn().mockImplementationOnce(() => {
+      throw new Error('somethign was wrong');
+    });
+    expect(async () => {
+      await getStudentsController(request, response as Response, jest.fn());
+    }).rejects.toThrow();
   });
 });
 
@@ -44,6 +45,9 @@ describe('Given a getStudentByIdController from studentController', () => {
   const response = {
     status: jest.fn().mockReturnThis(),
     json: jest.fn(),
+    locals: {
+      email: 'alex@test.test',
+    },
   } as Partial<Response>;
 
   const student = {
@@ -53,7 +57,9 @@ describe('Given a getStudentByIdController from studentController', () => {
     subjects: ['deepWeb101'],
   };
 
-  StudentModel.findById = jest.fn().mockResolvedValue(student);
+  StudentModel.findById = jest.fn().mockImplementation(() => ({
+    exec: jest.fn().mockResolvedValue(student),
+  }));
 
   test('when the user exists then it should respond with a student', async () => {
     await getStudentByIdController(

@@ -43,7 +43,7 @@ describe('Given an app with auth-router', () => {
         .expect(400);
 
       expect(response.body).toEqual({
-        msg: 'Email must be a valid email',
+        msg: '"email" must be a valid email',
       });
     });
   });
