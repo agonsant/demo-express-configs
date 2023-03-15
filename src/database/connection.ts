@@ -1,14 +1,5 @@
 import mongoose from 'mongoose';
 
-const connectDB = (urlBD: string) =>
-  new Promise((resolve, reject) => {
-    mongoose.connect(urlBD, error => {
-      if (error) {
-        reject(new Error('Error connecting to database'));
-      }
-
-      resolve(true);
-    });
-  });
+const connectDB = (urlBD: string) => mongoose.connect(urlBD);
 
 export default connectDB;
